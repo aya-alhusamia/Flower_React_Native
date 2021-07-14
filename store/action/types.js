@@ -12,4 +12,6 @@ export const CREATE_SHOP = "CREATE_SHOP";
 export const SET_USER = "SET_USER";
 
 // Cart Action
-export const ADD_TO_CART = "ADD_TO_CART";
+export const ADD_ITEM = "ADD_ITEM";
+export const DELETE_ITEM = "DELETE_ITEM";
+export const CHECKOUT = "CHECKOUT";

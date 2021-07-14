@@ -1,8 +1,16 @@
 import axios from "axios";
-import { ADD_TO_CART } from "./types";
+import * as actionTypes from "./types";
 
-export const addToCart = () => {
-    return {
-        type: ADD_TO_CART,
-    }
-}
+export const addItemToCart = (newItem) => ({
+    type: actionTypes.ADD_ITEM,
+    payload: newItem,
+});
+
+export const deleteItemFromCart = (itemId) => ({
+    type: actionTypes.DELETE_ITEM,
+    payload: itemId,
+});
+
+export const checkoutCart = () => ({
+    type: actionTypes.CHECKOUT,
+});

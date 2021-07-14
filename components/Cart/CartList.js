@@ -1,31 +1,39 @@
 import React from "react";
-import { List } from "native-base";
-import CartItem from "./CartItem";
-import { Box } from "native-base"
-import { Spinner, Center } from "native-base";
-import { useSelector } from "react-redux";
-import { Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-const CartList = () => {
+import { Text } from "react-native";
+import { Center, Button, List, Box } from "native-base";
+import CartItem from "./CartItem";
+import { checkoutCart } from "../../store/action/cartAction";
+
+
+const CartList = ({ navigation }) => {
     const items = useSelector((state) => state.items.items);
-    const products = useSelector((state) => state.products.products);
+    const allProducts = useSelector((state) => state.products.products);
+    const dispatch = useDispatch();
+
+    const handleCheckOut = () => {
+        dispatch(checkoutCart());
+    };
+
     const itemList = items
         .map((item) => ({
-            ...products.find((product) => product.id === item.itemId),
-            quantity: item.quantity
+            ...allProducts.find((p) => p.id === item.itemId),
+            quantity: item.quantity,
         }))
-        .map((item) => <CartItem item={item} key={item.id} />)
-
+        .map((item) => (
+            <CartItem navigation={navigation} item={item} key={item.id} />
+        ));
 
     return (
         <Center flex={1}>
-            <Box w="95%">
-                <Text>Item List</Text>
-                <List space={2} my={2}>{itemList}</List>
+            <Box w="70%">
+                <Text>YOUR CART</Text>
+                <List>{itemList}</List>
             </Box>
+            <Button onPress={handleCheckOut}>check out</Button>
         </Center>
+    );
+};
 
-
-    )
-}
-export default CartList
+export default CartList;

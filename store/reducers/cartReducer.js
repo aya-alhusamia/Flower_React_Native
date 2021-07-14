@@ -1,15 +1,41 @@
-import * as actionType from "../action/types";
+import * as actionTypes from "../action/types";
+
 const initialState = {
-    items: [{ itemId: 3, quantity: 3 }, { itemId: 2, quantity: 3 },]
+    items: []
 };
-export default (state = initialState, action) => {
+
+const cartReducer = (state = initialState, action) => {
     switch (action.type) {
-        // case actionType.ADD_TO_CART:
-        //     return {
-        //         ...state,
-        //         items: [...state.items, action.payload.newItem],
-        //     };
-        default: return state
+        case actionTypes.ADD_ITEM:
+            const newItem = action.payload;
+            const foundItem = state.items.find(
+                (item) => item.itemId === newItem.itemId
+            );
+            if (foundItem)
+                return {
+                    ...state,
+                    items: state.items.map((item) =>
+                        item === foundItem ? newItem : item
+                    ),
+                };
+            else
+                return {
+                    ...state,
+                    items: [...state.items, { ...newItem }],
+                };
+        // , quantity: 1
+        case actionTypes.DELETE_ITEM:
+            return {
+                ...state,
+                items: state.items.filter((item) => item.itemId != action.payload),
+            };
+        case actionTypes.CHECKOUT:
+            return {
+                ...state,
+                items: [],
+            };
+        default:
+            return state;
     }
-    return state
-}
+};
+export default cartReducer;
